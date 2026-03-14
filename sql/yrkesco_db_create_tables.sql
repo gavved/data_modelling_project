@@ -1,91 +1,91 @@
-CREATE TABLE "Program" (
+CREATE TABLE "program" (
   "program_id" serial PRIMARY KEY NOT NULL,
-  "program_name" string NOT NULL
+  "program_name" text NOT NULL
 );
 
-CREATE TABLE "Program_Course" (
+CREATE TABLE "program_course" (
   "program_id" serial NOT NULL,
   "course_id" serial NOT NULL,
   PRIMARY KEY ("program_id", "course_id")
 );
 
-CREATE TABLE "Course" (
+CREATE TABLE "course" (
   "course_id" serial PRIMARY KEY NOT NULL,
-  "course_name" string NOT NULL,
-  "course_code" string NOT NULL,
+  "course_name" text NOT NULL,
+  "course_code" text NOT NULL,
   "points" integer NOT NULL,
-  "description" string
+  "description" text
 );
 
-CREATE TABLE "Class" (
+CREATE TABLE "class" (
   "class_id" serial PRIMARY KEY NOT NULL,
   "program_id" serial NOT NULL,
   "manager_id" serial NOT NULL,
   "start_year" integer NOT NULL
 );
 
-CREATE TABLE "Class_Course" (
+CREATE TABLE "class_course" (
   "class_id" serial NOT NULL,
   "course_id" serial NOT NULL,
   PRIMARY KEY ("class_id", "course_id")
 );
 
-CREATE TABLE "Education_Manager" (
+CREATE TABLE "education_manager" (
   "manager_id" serial PRIMARY KEY NOT NULL,
-  "first_name" string NOT NULL,
-  "last_name" string NOT NULL,
-  "personal_identity_number" string UNIQUE NOT NULL,
-  "email_address" string UNIQUE NOT NULL
+  "first_name" text NOT NULL,
+  "last_name" text NOT NULL,
+  "personal_identity_number" text UNIQUE NOT NULL,
+  "email_address" text UNIQUE NOT NULL
 );
 
-CREATE TABLE "Student" (
+CREATE TABLE "student" (
   "student_id" serial PRIMARY KEY NOT NULL,
   "class_id" serial NOT NULL,
-  "first_name" string NOT NULL,
-  "last_name" string NOT NULL,
-  "personal_identity_number" string UNIQUE NOT NULL,
-  "email_address" string UNIQUE NOT NULL
+  "first_name" text NOT NULL,
+  "last_name" text NOT NULL,
+  "personal_identity_number" text UNIQUE NOT NULL,
+  "email_address" text UNIQUE NOT NULL
 );
 
-CREATE TABLE "Teacher" (
+CREATE TABLE "teacher" (
   "teacher_id" serial PRIMARY KEY NOT NULL,
   "consultant_company_id" serial,
-  "first_name" string NOT NULL,
-  "last_name" string NOT NULL,
-  "email_address" string UNIQUE NOT NULL
+  "first_name" text NOT NULL,
+  "last_name" text NOT NULL,
+  "email_address" text UNIQUE NOT NULL
 );
 
-CREATE TABLE "Course_Teacher" (
+CREATE TABLE "course_teacher" (
   "course_id" serial NOT NULL,
   "teacher_id" serial NOT NULL,
   PRIMARY KEY ("course_id", "teacher_id")
 );
 
-CREATE TABLE "Consultant_Company" (
+CREATE TABLE "consultant_company" (
   "consultant_company_id" serial PRIMARY KEY NOT NULL,
-  "company_name" string NOT NULL,
-  "organisation_number" string UNIQUE NOT NULL,
-  "address" string NOT NULL,
+  "company_name" text NOT NULL,
+  "organisation_number" text UNIQUE NOT NULL,
+  "address" text NOT NULL,
   "has_f_tax" boolean NOT NULL,
   "hourly_rate" float NOT NULL
 );
 
-ALTER TABLE "Program_Course" ADD FOREIGN KEY ("program_id") REFERENCES "Program" ("program_id") DEFERRABLE INITIALLY IMMEDIATE;
+ALTER TABLE "program_course" ADD FOREIGN KEY ("program_id") REFERENCES "program" ("program_id") DEFERRABLE INITIALLY IMMEDIATE;
 
-ALTER TABLE "Program_Course" ADD FOREIGN KEY ("course_id") REFERENCES "Course" ("course_id") DEFERRABLE INITIALLY IMMEDIATE;
+ALTER TABLE "program_course" ADD FOREIGN KEY ("course_id") REFERENCES "course" ("course_id") DEFERRABLE INITIALLY IMMEDIATE;
 
-ALTER TABLE "Class" ADD FOREIGN KEY ("program_id") REFERENCES "Program" ("program_id") DEFERRABLE INITIALLY IMMEDIATE;
+ALTER TABLE "class" ADD FOREIGN KEY ("program_id") REFERENCES "program" ("program_id") DEFERRABLE INITIALLY IMMEDIATE;
 
-ALTER TABLE "Class" ADD FOREIGN KEY ("manager_id") REFERENCES "Education_Manager" ("manager_id") DEFERRABLE INITIALLY IMMEDIATE;
+ALTER TABLE "class" ADD FOREIGN KEY ("manager_id") REFERENCES "education_manager" ("manager_id") DEFERRABLE INITIALLY IMMEDIATE;
 
-ALTER TABLE "Class_Course" ADD FOREIGN KEY ("class_id") REFERENCES "Class" ("class_id") DEFERRABLE INITIALLY IMMEDIATE;
+ALTER TABLE "class_course" ADD FOREIGN KEY ("class_id") REFERENCES "class" ("class_id") DEFERRABLE INITIALLY IMMEDIATE;
 
-ALTER TABLE "Class_Course" ADD FOREIGN KEY ("course_id") REFERENCES "Course" ("course_id") DEFERRABLE INITIALLY IMMEDIATE;
+ALTER TABLE "class_course" ADD FOREIGN KEY ("course_id") REFERENCES "course" ("course_id") DEFERRABLE INITIALLY IMMEDIATE;
 
-ALTER TABLE "Student" ADD FOREIGN KEY ("class_id") REFERENCES "Class" ("class_id") DEFERRABLE INITIALLY IMMEDIATE;
+ALTER TABLE "student" ADD FOREIGN KEY ("class_id") REFERENCES "class" ("class_id") DEFERRABLE INITIALLY IMMEDIATE;
 
-ALTER TABLE "Teacher" ADD FOREIGN KEY ("consultant_company_id") REFERENCES "Consultant_Company" ("consultant_company_id") DEFERRABLE INITIALLY IMMEDIATE;
+ALTER TABLE "teacher" ADD FOREIGN KEY ("consultant_company_id") REFERENCES "consultant_company" ("consultant_company_id") DEFERRABLE INITIALLY IMMEDIATE;
 
-ALTER TABLE "Course_Teacher" ADD FOREIGN KEY ("course_id") REFERENCES "Course" ("course_id") DEFERRABLE INITIALLY IMMEDIATE;
+ALTER TABLE "course_teacher" ADD FOREIGN KEY ("course_id") REFERENCES "course" ("course_id") DEFERRABLE INITIALLY IMMEDIATE;
 
-ALTER TABLE "Course_Teacher" ADD FOREIGN KEY ("teacher_id") REFERENCES "Teacher" ("teacher_id") DEFERRABLE INITIALLY IMMEDIATE;
+ALTER TABLE "course_teacher" ADD FOREIGN KEY ("teacher_id") REFERENCES "teacher" ("teacher_id") DEFERRABLE INITIALLY IMMEDIATE;
