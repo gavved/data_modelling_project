@@ -8,7 +8,7 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_DB: ${POSTGRES_DB}
     ports:
-      - "${POSTGRES_PORT}:5432" # port mapping between host machine and container
+      - "${POSTGRES_PORT}:5439" # port mapping between host machine and container
     volumes:
       - postgres_data:/var/lib/postgresql # named volume created under volumes section
       - ./sql:/sql # bind mount
